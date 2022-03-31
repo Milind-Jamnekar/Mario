@@ -77,6 +77,7 @@ function animate() {
   else if (keys.right.pressed) player.velocity.x = 10;
   else player.velocity.x = 0;
 
+  //Platform collision detection
   if (
     player.position.y + player.height <= platform.position.y &&
     player.position.y + player.height + player.velocity.y >=
