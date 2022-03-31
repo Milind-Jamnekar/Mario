@@ -44,10 +44,10 @@ class Player {
 }
 
 class Platform extends Player {
-  constructor() {
+  constructor({ x, y }) {
     super();
-    this.position.x = 200;
-    this.position.y = 300;
+    this.position.x = x;
+    this.position.y = y;
 
     this.width = 400;
     this.height = 20;
@@ -55,7 +55,10 @@ class Platform extends Player {
 }
 
 const player = new Player();
-const platform = new Platform();
+const platforms = [
+  new Platform({ x: 200, y: 200 }),
+  new Platform({ x: 500, y: 400 }),
+];
 
 const keys = {
   right: {
@@ -71,23 +74,25 @@ function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
   player.update();
-  platform.draw();
+
+  platforms.forEach((platform) => platform.draw());
 
   if (keys.left.pressed) player.velocity.x = -10;
   else if (keys.right.pressed) player.velocity.x = 10;
   else player.velocity.x = 0;
 
   //Platform collision detection
-  if (
-    player.position.y + player.height <= platform.position.y &&
-    player.position.y + player.height + player.velocity.y >=
-      platform.position.y &&
-    player.position.x + player.width >= platform.position.x &&
-    player.position.x + player.width <= platform.position.x + platform.width
-    // player.position.x + player.width <= platform.position.x &&
-  ) {
-    player.velocity.y = 0;
-  }
+  platforms.forEach((platform) => {
+    if (
+      player.position.y + player.height <= platform.position.y &&
+      player.position.y + player.height + player.velocity.y >=
+        platform.position.y &&
+      player.position.x + player.width >= platform.position.x &&
+      player.position.x + player.width <= platform.position.x + platform.width
+    ) {
+      player.velocity.y = 0;
+    }
+  });
 }
 
 animate();
