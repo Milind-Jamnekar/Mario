@@ -49,15 +49,15 @@ class Platform extends Player {
     this.position.x = x;
     this.position.y = y;
 
-    this.width = 400;
-    this.height = 20;
+    this.width = 300;
+    this.height = 30;
   }
 }
 
 const player = new Player();
 const platforms = [
   new Platform({ x: 200, y: 200 }),
-  new Platform({ x: 500, y: 400 }),
+  new Platform({ x: 800, y: 400 }),
 ];
 
 const keys = {
@@ -77,9 +77,17 @@ function animate() {
 
   platforms.forEach((platform) => platform.draw());
 
-  if (keys.left.pressed) player.velocity.x = -10;
-  else if (keys.right.pressed) player.velocity.x = 10;
-  else player.velocity.x = 0;
+  if (keys.left.pressed && player.position.x > 50) player.velocity.x = -10;
+  else if (keys.right.pressed && player.position.x < 600)
+    player.velocity.x = 10;
+  else {
+    player.velocity.x = 0;
+    if (keys.right.pressed) {
+      platforms.forEach((platform) => (platform.position.x -= 10));
+    } else if (keys.left.pressed) {
+      platforms.forEach((platform) => (platform.position.x += 10));
+    }
+  }
 
   //Platform collision detection
   platforms.forEach((platform) => {
