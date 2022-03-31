@@ -38,7 +38,6 @@ class Player {
       this.velocity.y += gravity;
     } else {
       this.velocity.y = 0;
-      this.velocity.x = 0;
     }
   }
 }
@@ -59,8 +58,8 @@ function animate() {
   c.clearRect(0, 0, canvas.width, canvas.height);
   player.update();
 
-  if (keys.left.pressed) player.velocity.x -= 10;
-  else if (keys.right.pressed) player.velocity.x += 10;
+  if (keys.left.pressed) player.velocity.x = -10;
+  else if (keys.right.pressed) player.velocity.x = 10;
   else player.velocity.x = 0;
 }
 
